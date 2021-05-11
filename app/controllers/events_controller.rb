@@ -14,7 +14,7 @@ class EventsController < ApplicationController
   def index
     render json: { 
       status: 200, 
-      events: Event.future_events.as_json(
+      events: Event.get_ongoing_events.as_json(
         only: [
           :id, 
           :event_name, 

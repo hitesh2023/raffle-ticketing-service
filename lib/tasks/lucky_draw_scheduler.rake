@@ -1,7 +1,7 @@
 namespace :lucky_draw_scheduler do
   desc "Run Lucky draw scheduler to announce the winner of each event"
   task run: :environment do
-    events = Event.future_events # change this
+    events = Event.get_ongoing_events
     events.each do |event|
       raffle_tickets = event.raffle_tickets
       ticket_numbers = raffle_tickets.pluck(:ticket_number)

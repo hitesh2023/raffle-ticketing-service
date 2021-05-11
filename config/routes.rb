@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#logout'
 
   # events
-  post 'events', to: "events#create"
+  post 'create_event', to: "events#create"
   post 'events/:id/register', to: "events#register"
-  get 'events', to: "events#index"
+  get 'ongoing_events', to: "events#index"
   get 'events/:id/get_registered_users', to: "events#get_registered_users"
   get 'events/:id/get_tickets', to: "events#get_tickets"
   get 'events/:id/get_winner', to: "events#get_winner"
