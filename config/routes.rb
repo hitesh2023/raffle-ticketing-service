@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # signup
+  post 'signup', to: 'registrations#signup'
+  
+  # login
+  post 'login', to: 'sessions#login'
+  delete 'logout', to: 'sessions#logout'
+
+  # events
+  post 'events', to: "events#create"
+  post 'events/:id/register', to: "events#register"
+  get 'events', to: "events#index"
+  get 'events/:id/get_registered_users', to: "events#get_registered_users"
+  get 'events/:id/get_tickets', to: "events#get_tickets"
 end
