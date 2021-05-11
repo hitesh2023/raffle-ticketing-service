@@ -44,6 +44,23 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def validate_get_winner
+    unless @event && @event.lucky_ticket_number.present?
+      render json: { status: 422, error: "Event is still in progress" } and return
+    end
+
+    lucky_number = @event.lucky_ticket_number
+    raffle_ticket_winner = @event.raffle_tickets.detect { |ticket| ticket.ticket_number == lucky_number }
+    
+    unless raffle_ticket_winner.present? && @user_won = raffle_ticket_winner.user
+      render json: { status: 422, error: "No winner evaluated" } and return
+    end
+  end
+
+  def init_events
+    @events ||= []
+  end
+
   def validate_admin_user
     unless @current_user && @current_user.is_admin?
       render json: { status: :unauthorized, error: 'Only admin user is allowed' } and return

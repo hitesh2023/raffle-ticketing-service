@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   get 'events', to: "events#index"
   get 'events/:id/get_registered_users', to: "events#get_registered_users"
   get 'events/:id/get_tickets', to: "events#get_tickets"
+  get 'events/:id/get_winner', to: "events#get_winner"
+  get 'events/get_all_winners', to: "events#get_all_winners"
 end

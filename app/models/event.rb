@@ -8,10 +8,11 @@ class Event < ApplicationRecord
   validates :reward_item, presence: true
   validate :event_start_and_end_date
 
-  def self.get_active_events
-    where("event_start_time >= :current_time", current_time: Time.now).order("id DESC")
-  end
-
+  default_scope { order("id DESC") }
+  scope :future_events, -> { where("event_start_time >= :current_time", current_time: Time.now) }
+  scope :get_ongoing_events, -> { where("event_start_time <= :current_time AND event_end_time >= :current_time AND lucky_ticket_number IS NULL", current_time: Time.now) }
+  scope :get_completed_events, -> { where("lucky_ticket_number IS NOT NULL") }
+  
   def registered_already?(user_id)
     users.pluck(:id).include?(user_id)
   end
