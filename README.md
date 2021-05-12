@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Used postgresql as a database
+# Steps to run locally
+ * git clone https://github.com/hitesh2023/raffle-ticketing-service.git
+ * cd raffle-ticketing-service
+ * bundle install 
+ * rake db:create ( creates a database with name mentioned in database.yml )
+ * rake db:migrate ( migrates all the tables & columns from db/migrate folder )
+ * rails server -p 3000 ( start the server at port 3000 )
