@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   before_action :validate_get_winner, only: [:get_winner]
   before_action :init_events, only: [:get_all_winners]
 
-  # Lists all the on-going events
+  # Lists all the on-going/running events
   def index
     render json: { 
       status: 200, 
@@ -26,7 +26,7 @@ class EventsController < ApplicationController
     }
   end
   
-  # Only admin can do, create a new event
+  # Only admins can create a new event
   def create
     event = Event.new(event_params)
     if event.save
@@ -36,7 +36,7 @@ class EventsController < ApplicationController
     end
   end
 
-  # Admins not allowed to participate, user can register himself with a ticket number
+  # Admins are not allowed to participate, only normal user can register himself with a ticket number
   def register
     user_event, user_event.user, user_event.event, @ticket.user = UserEvent.new, @current_user, @event, @current_user
     if user_event.save && @ticket.save
@@ -46,22 +46,22 @@ class EventsController < ApplicationController
     end
   end
   
-  # Get List of all the available tickets which are non-booked under an event
+  # Both Admins & normal users can access this, Get List of all the available tickets which are non-booked under an event
   def get_tickets 
     render json: { status: 200, tickets: @event_tickets.as_json(only: [:ticket_number]) }
   end
 
-  # Only admin can see users registered under an event
+  # Only admin can see users that are registered under an event
   def get_registered_users
     render json: { status: 200, users: @event_users.as_json(only: [:id, :email, :is_admin], include: { raffle_ticket: { only: [:ticket_number] } }) }
   end
 
-  # Only admin can see a winner under an event
+  # Only admins can see a winner of a single event
   def get_winner
     render json: { status: 200, event: @event.as_json(only: [:event_name, :reward_item, :lucky_ticket_number]), winner: @user_won.as_json(only: [:email]) }
   end
 
-  # Only admin can see all the winners under an event
+  # Only admin can see all the winners of all the events that ended within last 7 days
   def get_all_winners
     Event.get_completed_events.each do |event|
       raffle_ticket_winner = event.raffle_tickets.detect { |ticket| ticket.ticket_number == event.lucky_ticket_number }
